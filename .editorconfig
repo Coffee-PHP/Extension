@@ -16,8 +16,8 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
-# HTML-Files LESS-Files SASS-Files CSS-Files JS-Files JSON-Files
-[{*.html, *.less, *.sass, *.css, *.js, *.json}]
+# HTML-Files LESS-Files SASS-Files CSS-Files JS-Files JSON-Files XML-Files
+[{*.html, *.less, *.sass, *.css, *.js, *.json, *.xml}]
 indent_style = tab
 indent_size = 4
 
