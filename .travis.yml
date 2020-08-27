@@ -9,7 +9,7 @@ php:
 before_install:
   - composer self-update
   - composer validate
-  - pecl install -f apcu
+  - yes '' | pecl install -f apcu
 
 install:
   - composer install --prefer-dist
