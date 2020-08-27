@@ -1,2 +1,7 @@
 php:
   preset: psr12
+finder:
+  exclude:
+    - "test"
+  name:
+    - "*.php"
