@@ -29,7 +29,7 @@ if (!function_exists('array_get_int')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return int
      */
     function array_get_int(array $array, $key): int
@@ -44,7 +44,7 @@ if (!function_exists('array_get_string')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return string
      */
     function array_get_string(array $array, $key): string
@@ -59,7 +59,7 @@ if (!function_exists('array_get_float')) {
      * number from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return float
      */
     function array_get_float(array $array, $key): float
@@ -74,7 +74,7 @@ if (!function_exists('array_get_bool')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return bool
      */
     function array_get_bool(array $array, $key): bool
@@ -89,7 +89,7 @@ if (!function_exists('array_get_object')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return object
      */
     function array_get_object(array $array, $key): object
@@ -104,7 +104,7 @@ if (!function_exists('array_get_resource')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return resource
      */
     function array_get_resource(array $array, $key)
@@ -119,7 +119,7 @@ if (!function_exists('array_get_array')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return array
      */
     function array_get_array(array $array, $key): array
@@ -134,7 +134,7 @@ if (!function_exists('array_get_callable')) {
      * from the key in the array.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return callable
      */
     function array_get_callable(array $array, $key): callable
@@ -151,7 +151,7 @@ if (!function_exists('array_get_optional_int')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return int|null
      */
     function array_get_optional_int(array $array, $key): ?int
@@ -168,7 +168,7 @@ if (!function_exists('array_get_optional_string')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return string|null
      */
     function array_get_optional_string(array $array, $key): ?string
@@ -185,7 +185,7 @@ if (!function_exists('array_get_optional_float')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return float|null
      */
     function array_get_optional_float(array $array, $key): ?float
@@ -203,7 +203,7 @@ if (!function_exists('array_get_optional_bool')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return bool|null
      */
     function array_get_optional_bool(array $array, $key): ?bool
@@ -220,7 +220,7 @@ if (!function_exists('array_get_optional_object')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return object|null
      */
     function array_get_optional_object(array $array, $key): ?object
@@ -237,7 +237,7 @@ if (!function_exists('array_get_optional_resource')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return resource|null
      */
     function array_get_optional_resource(array $array, $key)
@@ -254,7 +254,7 @@ if (!function_exists('array_get_optional_array')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return array|null
      */
     function array_get_optional_array(array $array, $key): ?array
@@ -271,7 +271,7 @@ if (!function_exists('array_get_optional_callable')) {
      * Return null on failure.
      *
      * @param array $array
-     * @param mixed $key
+     * @param string|int $key
      * @return callable|null
      */
     function array_get_optional_callable(array $array, $key): ?callable

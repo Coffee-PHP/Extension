@@ -35,13 +35,14 @@ if (!function_exists('throwable_get_trace_as_string')) {
     function throwable_get_trace_as_string(Throwable $t, string $frameSeparator = PHP_EOL): string
     {
         $rtn = '';
-        $count = null;
+        $count = 0;
         /**
          * @var int $count
          * @var array $frame
          */
         foreach ($t->getTrace() as $count => $frame) {
             $args = '';
+            /** @var mixed $arg */
             foreach ($frame['args'] ?? [] as $arg) {
                 if (is_string($arg)) {
                     $args .= "'$arg', ";
@@ -60,9 +61,12 @@ if (!function_exists('throwable_get_trace_as_string')) {
                 }
             }
             $args = (string)substr($args, 0, -2);
-            $current_file = $frame['file'] ?? '[internal function]';
+            $current_file = isset($frame['file']) ? (string)$frame['file'] : '[internal function]';
             $current_line = isset($frame['line']) ? "({$frame['line']})" : '';
-            $function_str = ($frame['class'] ?? '') . ($frame['type'] ?? '') . ($frame['function']);
+            $function_str =
+                (isset($frame['class']) ? (string)$frame['class'] : '') .
+                (isset($frame['type']) ? (string)$frame['type'] : '') .
+                (isset($frame['function']) ? (string)$frame['function'] : '');
             $rtn .= "#{$count} {$current_file}{$current_line}: {$function_str}({$args}){$frameSeparator}";
         }
         ++$count;
