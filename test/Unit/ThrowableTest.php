@@ -48,7 +48,9 @@ final class ThrowableTest extends TestCase
         $exception = new Exception(uniqid('', true), mt_rand());
         assertTrue(
             strlen(throwable_get_trace_as_string($exception)) >=
-            strlen($exception->getTraceAsString())
+            strlen($exception->getTraceAsString()),
+            throwable_get_trace_as_string($exception) . PHP_EOL . PHP_EOL .
+            $exception->getTraceAsString()
         );
     }
 }
