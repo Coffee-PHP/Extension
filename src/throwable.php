@@ -54,6 +54,9 @@ if (!function_exists('throwable_get_trace_as_string')) {
                     case is_null($arg):
                         $arg = 'NULL';
                         break;
+                    case is_bool($arg):
+                        $arg = $arg ? 'true' : 'false';
+                        break;
                     case is_object($arg):
                         $arg = 'Object(' . get_class($arg) . ')';
                         break;
