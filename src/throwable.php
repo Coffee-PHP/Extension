@@ -36,6 +36,10 @@ if (!function_exists('throwable_get_trace_as_string')) {
     {
         $rtn = '';
         $count = null;
+        /**
+         * @var int $count
+         * @var array $frame
+         */
         foreach ($t->getTrace() as $count => $frame) {
             $args = '';
             foreach ($frame['args'] ?? [] as $arg) {
