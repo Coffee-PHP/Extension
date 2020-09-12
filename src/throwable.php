@@ -21,7 +21,7 @@
  * @since 2020-08-11
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 if (!function_exists('throwable_get_trace_as_string')) {
     /**
@@ -35,31 +35,45 @@ if (!function_exists('throwable_get_trace_as_string')) {
     function throwable_get_trace_as_string(Throwable $t, string $frameSeparator = PHP_EOL): string
     {
         $rtn = '';
-        $count = null;
+        $count = 0;
+        /**
+         * @var int $count
+         * @var array $frame
+         */
         foreach ($t->getTrace() as $count => $frame) {
             $args = '';
+            /** @var mixed $arg */
             foreach ($frame['args'] ?? [] as $arg) {
-                if (is_string($arg)) {
-                    $args .= "'$arg', ";
-                } elseif (is_array($arg)) {
-                    $args .= 'Array, ';
-                } elseif ($arg === null) {
-                    $args .= 'NULL, ';
-                } elseif (is_bool($arg)) {
-                    $args .= ($arg) ? 'true, ' : 'false, ';
-                } elseif (is_object($arg)) {
-                    $args .= 'Object(' . get_class($arg) . '), ';
-                } elseif (is_resource($arg)) {
-                    $args .= get_resource_type($arg) . ', ';
-                } else {
-                    $args .= "$arg, ";
+                switch (true) {
+                    case is_string($arg):
+                        $arg = "'$arg'";
+                        break;
+                    case is_array($arg):
+                        $arg = 'Array';
+                        break;
+                    case is_null($arg):
+                        $arg = 'NULL';
+                        break;
+                    case is_bool($arg):
+                        $arg = $arg ? 'true' : 'false';
+                        break;
+                    case is_object($arg):
+                        $arg = 'Object(' . get_class($arg) . ')';
+                        break;
+                    case is_resource($arg):
+                        $arg = get_resource_type($arg);
+                        break;
                 }
+                $args .= "$arg, ";
             }
             $args = (string)substr($args, 0, -2);
-            $current_file = $frame['file'] ?? '[internal function]';
-            $current_line = isset($frame['line']) ? "({$frame['line']})" : '';
-            $function_str = ($frame['class'] ?? '') . ($frame['type'] ?? '') . ($frame['function']);
-            $rtn .= "#{$count} {$current_file}{$current_line}: {$function_str}({$args}){$frameSeparator}";
+            $currentFile = isset($frame['file']) ? (string)$frame['file'] : '[internal function]';
+            $currentLine = isset($frame['line']) ? "({$frame['line']})" : '';
+            $functionStr =
+                (isset($frame['class']) ? (string)$frame['class'] : '') .
+                (isset($frame['type']) ? (string)$frame['type'] : '') .
+                (isset($frame['function']) ? (string)$frame['function'] : '');
+            $rtn .= "#{$count} {$currentFile}{$currentLine}: {$functionStr}({$args}){$frameSeparator}";
         }
         ++$count;
         return "{$rtn}#{$count} {main}";

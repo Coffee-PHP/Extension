@@ -21,7 +21,7 @@
  * @since 2020-08-11
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 if (!function_exists('mb_str_contains')) {
     /**
@@ -50,6 +50,12 @@ if (!function_exists('mb_str_icontains')) {
      */
     function mb_str_icontains(string $haystack, string $needle, ?string $encoding = null): bool
     {
-        return '' === $needle || false !== mb_stripos($haystack, $needle, 0, $encoding);
+        if ($needle === '') {
+            return true;
+        }
+        if ($encoding === null) {
+            return mb_stripos($haystack, $needle) !== false;
+        }
+        return mb_stripos($haystack, $needle, 0, $encoding) !== false;
     }
 }
