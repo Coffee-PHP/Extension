@@ -56,8 +56,7 @@
             "@coffeephp:exec:phpunit",
             "@coffeephp:exec:psalm",
             "@coffeephp:exec:phpcs",
-            "@coffeephp:exec:phpstan-analyse",
-            "@coffeephp:exec:phpmd"
+            "@coffeephp:exec:phpstan-analyse"
         ]
     }
 }
