@@ -67,3 +67,32 @@ if (!function_exists('str_ends_with')) {
         return $needle === '' || $needle === substr($haystack, -strlen($needle));
     }
 }
+
+if (!function_exists('str_putcsv')) {
+    /**
+     * Format the given fields to CSV and return the CSV string.
+     *
+     * @param array $fields
+     * @param string $delimiter
+     * @param string $enclosure
+     * @return string|false
+     */
+    function str_putcsv(array $fields, string $delimiter = ',', string $enclosure = '"')
+    {
+        try {
+            $handle = fopen('php://temp', 'r+b');
+            if ($handle === false) {
+                return false;
+            }
+            fputcsv($handle, $fields, $delimiter, $enclosure);
+            rewind($handle);
+            return stream_get_contents($handle);
+        } catch (Throwable $e) {
+            return false;
+        } finally {
+            if (isset($handle) && $handle !== false) {
+                fclose($handle);
+            }
+        }
+    }
+}

@@ -21,10 +21,9 @@
  * @since 2020-08-11
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace CoffeePhp\Extension\Test\Unit;
-
 
 use BadFunctionCallException;
 use PHPUnit\Framework\TestCase;
