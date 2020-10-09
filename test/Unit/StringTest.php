@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * StringTest.php
+ *
+ * Copyright 2020 Danny Damsky
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @package coffeephp\extension
+ * @author Danny Damsky <dannydamsky99@gmail.com>
+ * @since 2020-10-09
+ */
+
+declare(strict_types=1);
+
+namespace CoffeePhp\Extension\Test\Unit;
+
+use PHPUnit\Framework\TestCase;
+
+use function PHPUnit\Framework\assertSame;
+
+/**
+ * Class StringTest
+ * @package coffeephp\extension
+ * @since 2020-10-09
+ * @author Danny Damsky <dannydamsky99@gmail.com>
+ */
+final class StringTest extends TestCase
+{
+    /**
+     * @see str_putcsv()
+     */
+    public function testStringPutCsv(): void
+    {
+        $array = [
+            [
+                'fieldOne' => 'valueOne',
+                'fieldTwo' => 'valueTwo',
+                'fieldThree' => 'valueThree'
+            ],
+            [
+                'fieldOne' => 'valueFour',
+                'fieldTwo' => 'valueFive',
+                'fieldThree' => 'valueSix'
+            ],
+            [
+                'fieldOne' => 'valueSeven',
+                'fieldTwo' => 'valueEight',
+                'fieldThree' => 'valueNine'
+            ]
+        ];
+        $csv = str_putcsv(array_keys($array[0]));
+        $csv .= str_putcsv($array[0]);
+        $csv .= str_putcsv($array[1]);
+        $csv .= str_putcsv($array[2]);
+        assertSame(
+            <<<CSV
+fieldOne,fieldTwo,fieldThree
+valueOne,valueTwo,valueThree
+valueFour,valueFive,valueSix
+valueSeven,valueEight,valueNine
+
+CSV
+,
+            $csv
+        );
+    }
+}
