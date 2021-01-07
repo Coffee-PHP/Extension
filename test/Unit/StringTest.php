@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace CoffeePhp\Extension\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
+use CoffeePhp\QualityTools\TestCase;
 
 use function PHPUnit\Framework\assertSame;
 

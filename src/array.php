@@ -23,259 +23,227 @@
 
 declare(strict_types=1);
 
-if (!function_exists('array_get_int')) {
-    /**
-     * Attempt to retrieve an integer
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return int
-     */
-    function array_get_int(array $array, $key): int
-    {
-        return var_get_int($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an integer
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return int
+ */
+function array_get_int(array $array, string|int $key): int
+{
+    return var_get_int($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_string')) {
-    /**
-     * Attempt to retrieve a string
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return string
-     */
-    function array_get_string(array $array, $key): string
-    {
-        return var_get_string($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a string
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return string
+ */
+function array_get_string(array $array, string|int $key): string
+{
+    return var_get_string($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_float')) {
-    /**
-     * Attempt to retrieve a floating-point
-     * number from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return float
-     */
-    function array_get_float(array $array, $key): float
-    {
-        return var_get_float($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a floating-point
+ * number from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return float
+ */
+function array_get_float(array $array, string|int $key): float
+{
+    return var_get_float($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_bool')) {
-    /**
-     * Attempt to retrieve a boolean
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return bool
-     */
-    function array_get_bool(array $array, $key): bool
-    {
-        return var_get_bool($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a boolean
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return bool
+ */
+function array_get_bool(array $array, string|int $key): bool
+{
+    return var_get_bool($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_object')) {
-    /**
-     * Attempt to retrieve an object
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return object
-     */
-    function array_get_object(array $array, $key): object
-    {
-        return var_get_object($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an object
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return object
+ */
+function array_get_object(array $array, string|int $key): object
+{
+    return var_get_object($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_resource')) {
-    /**
-     * Attempt to retrieve a resource
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return resource
-     */
-    function array_get_resource(array $array, $key)
-    {
-        return var_get_resource($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a resource
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return resource
+ */
+function array_get_resource(array $array, string|int $key)
+{
+    return var_get_resource($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_array')) {
-    /**
-     * Attempt to retrieve an array
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return array
-     */
-    function array_get_array(array $array, $key): array
-    {
-        return var_get_array($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an array
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return array
+ */
+function array_get_array(array $array, string|int $key): array
+{
+    return var_get_array($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_callable')) {
-    /**
-     * Attempt to retrieve a callable
-     * from the key in the array.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return callable
-     */
-    function array_get_callable(array $array, $key): callable
-    {
-        return var_get_callable($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a callable
+ * from the key in the array.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return callable
+ */
+function array_get_callable(array $array, string|int $key): callable
+{
+    return var_get_callable($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_int')) {
-    /**
-     * Attempt to retrieve an integer
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return int|null
-     */
-    function array_get_optional_int(array $array, $key): ?int
-    {
-        return var_get_optional_int($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an integer
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return int|null
+ */
+function array_get_optional_int(array $array, string|int $key): ?int
+{
+    return var_get_optional_int($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_string')) {
-    /**
-     * Attempt to retrieve a string
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return string|null
-     */
-    function array_get_optional_string(array $array, $key): ?string
-    {
-        return var_get_optional_string($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a string
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return string|null
+ */
+function array_get_optional_string(array $array, string|int $key): ?string
+{
+    return var_get_optional_string($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_float')) {
-    /**
-     * Attempt to retrieve a floating-point
-     * number from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return float|null
-     */
-    function array_get_optional_float(array $array, $key): ?float
-    {
-        return var_get_optional_float($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a floating-point
+ * number from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return float|null
+ */
+function array_get_optional_float(array $array, string|int $key): ?float
+{
+    return var_get_optional_float($array[$key] ?? null);
 }
 
 
-if (!function_exists('array_get_optional_bool')) {
-    /**
-     * Attempt to retrieve a boolean
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return bool|null
-     */
-    function array_get_optional_bool(array $array, $key): ?bool
-    {
-        return var_get_optional_bool($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a boolean
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return bool|null
+ */
+function array_get_optional_bool(array $array, string|int $key): ?bool
+{
+    return var_get_optional_bool($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_object')) {
-    /**
-     * Attempt to retrieve an object
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return object|null
-     */
-    function array_get_optional_object(array $array, $key): ?object
-    {
-        return var_get_optional_object($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an object
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return object|null
+ */
+function array_get_optional_object(array $array, string|int $key): ?object
+{
+    return var_get_optional_object($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_resource')) {
-    /**
-     * Attempt to retrieve a resource
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return resource|null
-     */
-    function array_get_optional_resource(array $array, $key)
-    {
-        return var_get_optional_resource($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a resource
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return resource|null
+ */
+function array_get_optional_resource(array $array, string|int $key)
+{
+    return var_get_optional_resource($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_array')) {
-    /**
-     * Attempt to retrieve an array
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return array|null
-     */
-    function array_get_optional_array(array $array, $key): ?array
-    {
-        return var_get_optional_array($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve an array
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return array|null
+ */
+function array_get_optional_array(array $array, string|int $key): ?array
+{
+    return var_get_optional_array($array[$key] ?? null);
 }
 
-if (!function_exists('array_get_optional_callable')) {
-    /**
-     * Attempt to retrieve a callable
-     * from the key in the array.
-     *
-     * Return null on failure.
-     *
-     * @param array $array
-     * @param string|int $key
-     * @return callable|null
-     */
-    function array_get_optional_callable(array $array, $key): ?callable
-    {
-        return var_get_optional_callable($array[$key] ?? null);
-    }
+/**
+ * Attempt to retrieve a callable
+ * from the key in the array.
+ *
+ * Return null on failure.
+ *
+ * @param array $array
+ * @param string|int $key
+ * @return callable|null
+ */
+function array_get_optional_callable(array $array, string|int $key): ?callable
+{
+    return var_get_optional_callable($array[$key] ?? null);
 }

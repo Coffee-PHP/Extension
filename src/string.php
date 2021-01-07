@@ -23,76 +23,29 @@
 
 declare(strict_types=1);
 
-if (!function_exists('str_contains')) {
-    /**
-     * Check whether a string (the haystack) contains
-     * another string (the needle).
-     *
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    function str_contains(string $haystack, string $needle): bool
-    {
-        return '' === $needle || false !== strpos($haystack, $needle);
-    }
-}
-
-if (!function_exists('str_starts_with')) {
-    /**
-     * Check whether a string (the haystack)
-     * starts with another string (the needle).
-     *
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    function str_starts_with(string $haystack, string $needle): bool
-    {
-        return strncmp($haystack, $needle, strlen($needle)) === 0;
-    }
-}
-
-if (!function_exists('str_ends_with')) {
-    /**
-     * Check whether a string (the haystack)
-     * ends with another string (the needle).
-     *
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    function str_ends_with(string $haystack, string $needle): bool
-    {
-        return $needle === '' || $needle === substr($haystack, -strlen($needle));
-    }
-}
-
-if (!function_exists('str_putcsv')) {
-    /**
-     * Format the given fields to CSV and return the CSV string.
-     *
-     * @param array $fields
-     * @param string $delimiter
-     * @param string $enclosure
-     * @return string|false
-     */
-    function str_putcsv(array $fields, string $delimiter = ',', string $enclosure = '"')
-    {
-        try {
-            $handle = fopen('php://temp', 'r+b');
-            if ($handle === false) {
-                return false;
-            }
-            fputcsv($handle, $fields, $delimiter, $enclosure);
-            rewind($handle);
-            return stream_get_contents($handle);
-        } catch (Throwable $e) {
+/**
+ * Format the given fields to CSV and return the CSV string.
+ *
+ * @param array $fields
+ * @param string $delimiter
+ * @param string $enclosure
+ * @return string|false
+ */
+function str_putcsv(array $fields, string $delimiter = ',', string $enclosure = '"'): string|false
+{
+    try {
+        $handle = fopen('php://temp', 'r+b');
+        if ($handle === false) {
             return false;
-        } finally {
-            if (isset($handle) && $handle !== false) {
-                fclose($handle);
-            }
+        }
+        fputcsv($handle, $fields, $delimiter, $enclosure);
+        rewind($handle);
+        return stream_get_contents($handle);
+    } catch (Throwable) {
+        return false;
+    } finally {
+        if (isset($handle) && $handle !== false) {
+            fclose($handle);
         }
     }
 }

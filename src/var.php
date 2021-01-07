@@ -23,377 +23,225 @@
 
 declare(strict_types=1);
 
-if (!function_exists('var_get_int')) {
-    /**
-     * Cast the mixed value to an
-     * integer and return it.
-     *
-     * @param mixed $var
-     * @return int
-     * @noinspection TypeUnsafeComparisonInspection
-     */
-    function var_get_int($var): int
-    {
-        try {
-            if (is_bool($var)) {
-                return $var ? 1 : 0;
-            }
-            $intVal = (int)$var;
-            if (is_float($var)) {
-                if ($var == $intVal) {
-                    return $intVal;
-                }
-            } elseif ((string)$intVal === (string)$var) {
-                return $intVal;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to an integer.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to an integer.");
-        }
+/**
+ * Cast the mixed value to an
+ * integer and return it.
+ *
+ * @param mixed $var
+ * @return int
+ */
+function var_get_int(mixed $var): int
+{
+    return filter_var($var, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+}
+
+/**
+ * Get a string from the given value.
+ *
+ * @param mixed $var
+ * @return string
+ */
+function var_get_string(mixed $var): string
+{
+    return $var;
+}
+
+/**
+ * Get a floating point from the given value.
+ *
+ * @param mixed $var
+ * @return float
+ */
+function var_get_float(mixed $var): float
+{
+    return filter_var($var, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE);
+}
+
+/**
+ * Get a boolean from the given value.
+ *
+ * @param mixed $var
+ * @return bool
+ */
+function var_get_bool(mixed $var): bool
+{
+    if ($var === null) {
+        throw new TypeError(__FUNCTION__ . '(): Return value must be of type bool, null returned');
+    }
+    return filter_var($var, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+}
+
+/**
+ * Get an object from the given value.
+ *
+ * @param mixed $var
+ * @return object
+ */
+function var_get_object(mixed $var): object
+{
+    return $var;
+}
+
+/**
+ * Get a resource from the given value.
+ *
+ * @param mixed $var
+ * @return resource
+ */
+function var_get_resource(mixed $var)
+{
+    if (is_resource($var)) {
+        return $var;
+    }
+    throw new TypeError(__FUNCTION__ . '(): Return value must be of type resource, ' . gettype($var) . ' returned');
+}
+
+/**
+ * Get an array from the given value.
+ *
+ * @param mixed $var
+ * @return array
+ */
+function var_get_array(mixed $var): array
+{
+    return $var;
+}
+
+/**
+ * Get a callable from the given value.
+ *
+ * @param mixed $var
+ * @return callable
+ */
+function var_get_callable(mixed $var): callable
+{
+    return $var;
+}
+
+/**
+ * Attempt to retrieve an integer from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return int|null
+ */
+function var_get_optional_int(mixed $var): ?int
+{
+    try {
+        return var_get_int($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_string')) {
-    /**
-     * Cast the mixed value to a
-     * string and return it.
-     *
-     * @param mixed $var
-     * @return string
-     */
-    function var_get_string($var): string
-    {
-        try {
-            if (is_bool($var)) {
-                return $var ? '1' : '0';
-            }
-            if ($var === null) {
-                throw new BadFunctionCallException('Failed to cast null value to string.');
-            }
-            return (string)$var;
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to a string.");
-        }
+/**
+ * Attempt to retrieve a string from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return string|null
+ */
+function var_get_optional_string(mixed $var): ?string
+{
+    try {
+        return var_get_string($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_float')) {
-    /**
-     * Cast the mixed value to a
-     * floating point number and
-     * return it.
-     *
-     * @param mixed $var
-     * @return float
-     */
-    function var_get_float($var): float
-    {
-        try {
-            if (is_bool($var)) {
-                return $var ? 1.0 : 0.0;
-            }
-            if (is_numeric($var)) {
-                return (float)$var;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to a floating-point number.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to a floating-point number.");
-        }
+/**
+ * Attempt to retrieve a float from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return float|null
+ */
+function var_get_optional_float(mixed $var): ?float
+{
+    try {
+        return var_get_float($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_bool')) {
-    /**
-     * Cast the mixed value to
-     * a boolean and return it.
-     *
-     * @param mixed $var
-     * @return bool
-     */
-    function var_get_bool($var): bool
-    {
-        try {
-            if (is_bool($var)) {
-                return $var;
-            }
-            $mixedString = (string)strtoupper((string)$var);
-            if (in_array($mixedString, ['1', 'YES', 'ON', 'TRUE'], true)) {
-                return true;
-            }
-            if (in_array($mixedString, ['0', 'NO', 'OFF', 'FALSE'], true)) {
-                return false;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to a boolean.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to a boolean.");
-        }
+/**
+ * Attempt to retrieve a boolean from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return bool|null
+ */
+function var_get_optional_bool(mixed $var): ?bool
+{
+    try {
+        return var_get_bool($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_object')) {
-    /**
-     * Cast the mixed value to
-     * an object and return it.
-     *
-     * @param mixed $var
-     * @return object
-     */
-    function var_get_object($var): object
-    {
-        try {
-            if (is_object($var)) {
-                return $var;
-            }
-            throw new BadFunctionCallException("Failed to cast '$var' to an object.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of '$type' to an object.");
-        }
+/**
+ * Attempt to retrieve an object from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return object|null
+ */
+function var_get_optional_object(mixed $var): ?object
+{
+    try {
+        return var_get_object($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_resource')) {
-    /**
-     * Cast the mixed value to
-     * a resource and return it.
-     *
-     * @param mixed $var
-     * @return resource
-     */
-    function var_get_resource($var)
-    {
-        try {
-            if (is_resource($var)) {
-                return $var;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to a resource.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to a resource.");
-        }
+/**
+ * Attempt to retrieve a resource from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return resource|null
+ */
+function var_get_optional_resource(mixed $var)
+{
+    try {
+        return var_get_resource($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_array')) {
-    /**
-     * Cast the mixed value
-     * to an array and return it.
-     *
-     * @param mixed $var
-     * @return array
-     */
-    function var_get_array($var): array
-    {
-        try {
-            if (is_array($var)) {
-                return $var;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to an array.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to an array.");
-        }
+/**
+ * Attempt to retrieve an array from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return array|null
+ */
+function var_get_optional_array(mixed $var): ?array
+{
+    try {
+        return var_get_array($var);
+    } catch (Throwable) {
+        return null;
     }
 }
 
-if (!function_exists('var_get_callable')) {
-    /**
-     * Cast the mixed value to
-     * a callable and return it.
-     *
-     * @param mixed $var
-     * @return callable
-     */
-    function var_get_callable($var): callable
-    {
-        try {
-            if (is_callable($var)) {
-                return $var;
-            }
-            throw new BadFunctionCallException("Failed to cast value '$var' to a callable.");
-        } catch (BadFunctionCallException $e) {
-            throw $e;
-        } catch (Throwable $e) {
-            $type = gettype($var);
-            throw new BadFunctionCallException("Failed to cast value of type '$type' to a callable.");
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_int')) {
-    /**
-     * Attempt to convert the
-     * mixed value to an integer.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return int|null
-     */
-    function var_get_optional_int($var): ?int
-    {
-        try {
-            return var_get_int($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_string')) {
-    /**
-     * Attempt to convert the mixed
-     * value to a string.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return string|null
-     */
-    function var_get_optional_string($var): ?string
-    {
-        try {
-            return var_get_string($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_float')) {
-    /**
-     * Attempt to convert the mixed
-     * value to a floating point number.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return float|null
-     */
-    function var_get_optional_float($var): ?float
-    {
-        try {
-            return var_get_float($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_bool')) {
-    /**
-     * Attempt to convert the mixed
-     * value to a boolean.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return bool|null
-     */
-    function var_get_optional_bool($var): ?bool
-    {
-        try {
-            return var_get_bool($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_object')) {
-    /**
-     * Attempt to convert the
-     * mixed value to an object.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return object|null
-     */
-    function var_get_optional_object($var): ?object
-    {
-        try {
-            return var_get_object($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_resource')) {
-    /**
-     * Attempt to convert the
-     * mixed value to a resource.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return resource|null
-     */
-    function var_get_optional_resource($var)
-    {
-        try {
-            return var_get_resource($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_array')) {
-    /**
-     * Attempt to convert the
-     * mixed value to an array.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return array|null
-     */
-    function var_get_optional_array($var): ?array
-    {
-        try {
-            return var_get_array($var);
-        } catch (Throwable $e) {
-            return null;
-        }
-    }
-}
-
-if (!function_exists('var_get_optional_callable')) {
-    /**
-     * Attempt to convert the
-     * mixed value to a callable.
-     *
-     * Return null on failure.
-     *
-     * @param mixed $var
-     * @return callable|null
-     */
-    function var_get_optional_callable($var): ?callable
-    {
-        try {
-            return var_get_callable($var);
-        } catch (Throwable $e) {
-            return null;
-        }
+/**
+ * Attempt to retrieve a callable from the given value,
+ * return null on failure.
+ *
+ * @param mixed $var
+ * @return callable|null
+ */
+function var_get_optional_callable(mixed $var): ?callable
+{
+    try {
+        return var_get_callable($var);
+    } catch (Throwable) {
+        return null;
     }
 }

@@ -23,14 +23,12 @@
 
 declare(strict_types=1);
 
-if (!function_exists('time_millis')) {
-    /**
-     * Returns the time in milliseconds.
-     *
-     * @return int
-     */
-    function time_millis(): int
-    {
-        return (int)round(microtime(true) * 1000);
-    }
+/**
+ * Returns the time in milliseconds.
+ *
+ * @return int
+ */
+function time_millis(): int
+{
+    return (int)round(microtime(true) * 1000);
 }
