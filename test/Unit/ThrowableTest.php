@@ -25,11 +25,11 @@ declare(strict_types=1);
 
 namespace CoffeePhp\Extension\Test\Unit;
 
+use CoffeePhp\QualityTools\TestCase;
 use Exception;
-use PHPUnit\Framework\TestCase;
 
 use function mt_rand;
-use function PHPUnit\Framework\assertTrue;
+use function PHPUnit\Framework\assertGreaterThanOrEqual;
 use function strlen;
 use function throwable_get_trace_as_string;
 use function uniqid;
@@ -42,14 +42,15 @@ use function uniqid;
  */
 final class ThrowableTest extends TestCase
 {
+    /**
+     * @see throwable_get_trace_as_string()
+     */
     public function testGetTraceAsString(): void
     {
         $exception = new Exception(uniqid('', true), mt_rand());
-        assertTrue(
-            strlen(throwable_get_trace_as_string($exception)) >=
-            strlen($exception->getTraceAsString()),
-            throwable_get_trace_as_string($exception) . PHP_EOL . PHP_EOL .
-            $exception->getTraceAsString()
+        assertGreaterThanOrEqual(
+            strlen(throwable_get_trace_as_string($exception)),
+            strlen($exception->getTraceAsString())
         );
     }
 }

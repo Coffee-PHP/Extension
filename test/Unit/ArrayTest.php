@@ -25,16 +25,14 @@ declare(strict_types=1);
 
 namespace CoffeePhp\Extension\Test\Unit;
 
-use BadFunctionCallException;
+use CoffeePhp\QualityTools\TestCase;
 use Exception;
-use PHPUnit\Framework\TestCase;
 use stdClass;
+use TypeError;
 
 use function fopen;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNull;
-use function PHPUnit\Framework\assertTrue;
-use function var_export;
 
 /**
  * Class ArrayTest
@@ -59,32 +57,16 @@ final class ArrayTest extends TestCase
             'object' => new stdClass(),
             'resource' => fopen(__FILE__, 'rb'),
             'array' => [],
-            'callable' => fn() => 1
+            'callable' => fn() => 1,
         ];
 
         foreach ($array as $key => $value) {
             $fn = "array_get_{$key}";
             $optionalFn = "array_get_optional_{$key}";
-            assertEquals(
-                $value,
-                $fn($array, $key),
-                var_export($fn($array, $key), true)
-            );
-            assertEquals(
-                $value,
-                $optionalFn($array, $key),
-                var_export($optionalFn($array, $key), true)
-            );
-            assertNull(
-                $optionalFn($array, $key . '1234'),
-                var_export($optionalFn($array, $key . '1234'), true)
-            );
-            try {
-                $fn($array, $key . '1234');
-                assertTrue(false);
-            } catch (BadFunctionCallException $e) {
-                assertTrue(true);
-            }
+            assertEquals($value, $fn($array, $key));
+            assertEquals($value, $optionalFn($array, $key));
+            assertNull($optionalFn($array, $key . '1234'),);
+            self::assertException(fn() => $fn($array, $key . '1234'), TypeError::class);
         }
     }
 }

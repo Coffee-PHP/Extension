@@ -23,59 +23,46 @@
 
 declare(strict_types=1);
 
-if (!function_exists('throwable_get_trace_as_string')) {
+/**
+ * Same as {@see Throwable::getTraceAsString()} but
+ * does not truncate the output.
+ *
+ * @param Throwable $t
+ * @param string $frameSeparator
+ * @return string
+ */
+function throwable_get_trace_as_string(Throwable $t, string $frameSeparator = PHP_EOL): string
+{
+    $rtn = '';
+    $count = 0;
     /**
-     * Same as {@see Throwable::getTraceAsString()} but
-     * does not truncate the output.
-     *
-     * @param Throwable $t
-     * @param string $frameSeparator
-     * @return string
+     * @var int $count
+     * @var array $frame
      */
-    function throwable_get_trace_as_string(Throwable $t, string $frameSeparator = PHP_EOL): string
-    {
-        $rtn = '';
-        $count = 0;
-        /**
-         * @var int $count
-         * @var array $frame
-         */
-        foreach ($t->getTrace() as $count => $frame) {
-            $args = '';
-            /** @var mixed $arg */
-            foreach ($frame['args'] ?? [] as $arg) {
-                switch (true) {
-                    case is_string($arg):
-                        $arg = "'$arg'";
-                        break;
-                    case is_array($arg):
-                        $arg = 'Array';
-                        break;
-                    case is_null($arg):
-                        $arg = 'NULL';
-                        break;
-                    case is_bool($arg):
-                        $arg = $arg ? 'true' : 'false';
-                        break;
-                    case is_object($arg):
-                        $arg = 'Object(' . get_class($arg) . ')';
-                        break;
-                    case is_resource($arg):
-                        $arg = get_resource_type($arg);
-                        break;
-                }
-                $args .= "$arg, ";
-            }
-            $args = (string)substr($args, 0, -2);
-            $currentFile = isset($frame['file']) ? (string)$frame['file'] : '[internal function]';
-            $currentLine = isset($frame['line']) ? "({$frame['line']})" : '';
-            $functionStr =
-                (isset($frame['class']) ? (string)$frame['class'] : '') .
-                (isset($frame['type']) ? (string)$frame['type'] : '') .
-                (isset($frame['function']) ? (string)$frame['function'] : '');
-            $rtn .= "#{$count} {$currentFile}{$currentLine}: {$functionStr}({$args}){$frameSeparator}";
+    foreach ($t->getTrace() as $count => $frame) {
+        $args = '';
+        /** @var mixed $arg */
+        foreach ($frame['args'] ?? [] as $arg) {
+            $arg = match (true) {
+                is_string($arg) => "'$arg'",
+                is_array($arg) => 'Array',
+                is_null($arg) => 'NULL',
+                is_bool($arg) => $arg ? 'true' : 'false',
+                is_object($arg) => 'Object(' . get_class($arg) . ')',
+                is_resource($arg) => get_resource_type($arg),
+                default => $arg,
+            };
+            $args .= "$arg, ";
         }
-        ++$count;
-        return "{$rtn}#{$count} {main}";
+        $args = (string)substr($args, 0, -2);
+        $currentFile = isset($frame['file']) ? (string)$frame['file'] : '[internal function]';
+        $currentLine = isset($frame['line']) ? "({$frame['line']})" : '';
+        $functionStr =
+            (isset($frame['class']) ? (string)$frame['class'] : '') .
+            (isset($frame['type']) ? (string)$frame['type'] : '') .
+            (isset($frame['function']) ? (string)$frame['function'] : '');
+        $rtn .= "#{$count} {$currentFile}{$currentLine}: {$functionStr}({$args}){$frameSeparator}";
     }
+    ++$count;
+    return "{$rtn}#{$count} {main}";
 }

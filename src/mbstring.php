@@ -31,6 +31,7 @@ if (!function_exists('mb_str_contains')) {
      * @param string $haystack
      * @param string $needle
      * @return bool
+     * @noinspection StrContainsCanBeUsedInspection
      */
     function mb_str_contains(string $haystack, string $needle): bool
     {
