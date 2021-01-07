@@ -1,5 +1,7 @@
 # Coffee PHP - Extension
 
+![Build](https://github.com/Coffee-PHP/Extension/workflows/Build/badge.svg)
+
 Auto-loads extensions that add functionality to PHP.
 
 These extensions include global functions
