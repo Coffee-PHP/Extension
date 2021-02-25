@@ -134,16 +134,6 @@ final class ValidationTest extends TestCase
     }
 
     /**
-     * @see regexp_is_valid()
-     */
-    public function validateRegexp(): void
-    {
-        $pattern = '/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i';
-        assertTrue(regexp_is_valid($pattern));
-        assertFalse(regexp_is_valid($this->getFaker()->uuid));
-    }
-
-    /**
      * @see hostname_is_valid()
      */
     public function testValidateHostname(): void

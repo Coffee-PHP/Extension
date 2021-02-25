@@ -49,12 +49,21 @@ function random_float(): float
 /**
  * Generates a cryptographically secure pseudo-random string.
  *
- * @param int $length
+ * @param int $minLength The minimum length of the string.
+ * @param int|null $maxLength The maximum length of the string. If not provided it will be equal to minLength.
  * @return string
  * @throws Exception
  */
-function random_string(int $length): string
+function random_string(int $minLength, ?int $maxLength = null): string
 {
+    $maxLength ??= $minLength;
+    if ($minLength < 1) {
+        throw new Error('random_string(): Argument #1 ($minLength) must be greater than 0');
+    }
+    if ($maxLength < $minLength) {
+        throw new Error('random_string(): Argument #2 ($maxLength) must be greater than Argument #1 ($minLength)');
+    }
+    $length = random_int($minLength, $maxLength);
     $bytesLength = (int)round($length * 0.5);
     $bytes = random_bytes($bytesLength);
     $string = bin2hex($bytes);

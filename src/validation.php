@@ -117,17 +117,6 @@ function mac_is_valid(string $mac): bool
 }
 
 /**
- * Validate the given regular expression.
- *
- * @param string $regexp
- * @return bool
- */
-function regexp_is_valid(string $regexp): bool
-{
-    return filter_var($regexp, FILTER_VALIDATE_REGEXP) !== false;
-}
-
-/**
  * Validate the given hostname.
  *
  * @param string $hostname
