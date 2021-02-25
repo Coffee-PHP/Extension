@@ -32,7 +32,10 @@ declare(strict_types=1);
  */
 function var_get_int(mixed $var): int
 {
-    return filter_var($var, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+    return filter_var($var, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE)
+        ?? throw new TypeError(
+            'var_get_int(): Argument #1 ($var) must be of type int, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -43,7 +46,11 @@ function var_get_int(mixed $var): int
  */
 function var_get_string(mixed $var): string
 {
-    return $var;
+    return is_string($var)
+        ? $var
+        : throw new TypeError(
+            'var_get_string(): Argument #1 ($var) must be of type string, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -54,7 +61,10 @@ function var_get_string(mixed $var): string
  */
 function var_get_float(mixed $var): float
 {
-    return filter_var($var, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE);
+    return filter_var($var, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE)
+        ?? throw new TypeError(
+            'var_get_float(): Argument #1 ($var) must be of type float, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -66,9 +76,12 @@ function var_get_float(mixed $var): float
 function var_get_bool(mixed $var): bool
 {
     if ($var === null) {
-        throw new TypeError(__FUNCTION__ . '(): Return value must be of type bool, null returned');
+        throw new TypeError('var_get_bool(): Argument #1 ($var) must be of type bool, null given');
     }
-    return filter_var($var, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    return filter_var($var, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+        ?? throw new TypeError(
+            'var_get_bool(): Argument #1 ($var) must be of type bool, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -79,7 +92,11 @@ function var_get_bool(mixed $var): bool
  */
 function var_get_object(mixed $var): object
 {
-    return $var;
+    return is_object($var)
+        ? $var
+        : throw new TypeError(
+            'var_get_object(): Argument #1 ($var) must be of type object, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -90,10 +107,11 @@ function var_get_object(mixed $var): object
  */
 function var_get_resource(mixed $var)
 {
-    if (is_resource($var)) {
-        return $var;
-    }
-    throw new TypeError(__FUNCTION__ . '(): Return value must be of type resource, ' . gettype($var) . ' returned');
+    return is_resource($var)
+        ? $var
+        : throw new TypeError(
+            'var_get_resource(): Argument #1 ($var) must be of type resource, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -104,7 +122,11 @@ function var_get_resource(mixed $var)
  */
 function var_get_array(mixed $var): array
 {
-    return $var;
+    return is_array($var)
+        ? $var
+        : throw new TypeError(
+            'var_get_array(): Argument #1 ($var) must be of type array, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -115,7 +137,11 @@ function var_get_array(mixed $var): array
  */
 function var_get_callable(mixed $var): callable
 {
-    return $var;
+    return is_callable($var)
+        ? $var
+        : throw new TypeError(
+            'var_get_callable(): Argument #1 ($var) must be of type callable, ' . get_debug_type($var) . ' given'
+        );
 }
 
 /**
@@ -127,11 +153,7 @@ function var_get_callable(mixed $var): callable
  */
 function var_get_optional_int(mixed $var): ?int
 {
-    try {
-        return var_get_int($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return filter_var($var, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
 }
 
 /**
@@ -143,11 +165,7 @@ function var_get_optional_int(mixed $var): ?int
  */
 function var_get_optional_string(mixed $var): ?string
 {
-    try {
-        return var_get_string($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return is_string($var) ? $var : null;
 }
 
 /**
@@ -159,11 +177,7 @@ function var_get_optional_string(mixed $var): ?string
  */
 function var_get_optional_float(mixed $var): ?float
 {
-    try {
-        return var_get_float($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return filter_var($var, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE);
 }
 
 /**
@@ -175,11 +189,7 @@ function var_get_optional_float(mixed $var): ?float
  */
 function var_get_optional_bool(mixed $var): ?bool
 {
-    try {
-        return var_get_bool($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return $var === null ? null : filter_var($var, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
 }
 
 /**
@@ -191,11 +201,7 @@ function var_get_optional_bool(mixed $var): ?bool
  */
 function var_get_optional_object(mixed $var): ?object
 {
-    try {
-        return var_get_object($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return is_object($var) ? $var : null;
 }
 
 /**
@@ -207,11 +213,7 @@ function var_get_optional_object(mixed $var): ?object
  */
 function var_get_optional_resource(mixed $var)
 {
-    try {
-        return var_get_resource($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return is_resource($var) ? $var : null;
 }
 
 /**
@@ -223,11 +225,7 @@ function var_get_optional_resource(mixed $var)
  */
 function var_get_optional_array(mixed $var): ?array
 {
-    try {
-        return var_get_array($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return is_array($var) ? $var : null;
 }
 
 /**
@@ -239,9 +237,5 @@ function var_get_optional_array(mixed $var): ?array
  */
 function var_get_optional_callable(mixed $var): ?callable
 {
-    try {
-        return var_get_callable($var);
-    } catch (Throwable) {
-        return null;
-    }
+    return is_callable($var) ? $var : null;
 }

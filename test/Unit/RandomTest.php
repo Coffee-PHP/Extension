@@ -26,7 +26,10 @@ declare(strict_types=1);
 namespace CoffeePhp\Extension\Test\Unit;
 
 use CoffeePhp\QualityTools\TestCase;
+use Error;
 use Exception;
+
+use TypeError;
 
 use function PHPUnit\Framework\assertGreaterThanOrEqual;
 use function PHPUnit\Framework\assertLessThan;
@@ -93,5 +96,8 @@ final class RandomTest extends TestCase
             assertNotSame($string, $next);
             $string = $next;
         }
+
+        self::assertException(static fn() => random_string(0, PHP_INT_MAX), Error::class);
+        self::assertException(static fn() => random_string(8, 5), Error::class);
     }
 }

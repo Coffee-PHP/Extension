@@ -33,7 +33,15 @@ declare(strict_types=1);
  */
 function array_get_int(array $array, string|int $key): int
 {
-    return var_get_int($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        return filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE)
+            ?? throw new TypeError(
+                'array_get_int(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+                'to return int, ' . get_debug_type($value) . ' returned'
+            );
+    }
+    throw new TypeError('array_get_int(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -46,7 +54,17 @@ function array_get_int(array $array, string|int $key): int
  */
 function array_get_string(array $array, string|int $key): string
 {
-    return var_get_string($array[$key] ?? null);
+    if (array_key_exists($key, $array)){
+        $value = $array[$key];
+        if (is_string($value)) {
+            return $value;
+        }
+        throw new TypeError(
+            'array_get_string(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+            'to return string, ' . get_debug_type($value) . ' returned'
+        );
+    }
+    throw new TypeError('array_get_string(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -59,7 +77,15 @@ function array_get_string(array $array, string|int $key): string
  */
 function array_get_float(array $array, string|int $key): float
 {
-    return var_get_float($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        return filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE)
+            ?? throw new TypeError(
+                'array_get_float(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+                'to return float, ' . get_debug_type($value) . ' returned'
+            );
+    }
+    throw new TypeError('array_get_float(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -72,7 +98,21 @@ function array_get_float(array $array, string|int $key): float
  */
 function array_get_bool(array $array, string|int $key): bool
 {
-    return var_get_bool($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        if ($value === null) {
+            throw new TypeError(
+                'array_get_bool(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+                'to return bool, null returned'
+            );
+        }
+        return filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE)
+            ?? throw new TypeError(
+                'array_get_bool(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+                'to return bool, ' . get_debug_type($value) . ' returned'
+            );
+    }
+    throw new TypeError('array_get_bool(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -85,7 +125,17 @@ function array_get_bool(array $array, string|int $key): bool
  */
 function array_get_object(array $array, string|int $key): object
 {
-    return var_get_object($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        if (is_object($value)) {
+            return $value;
+        }
+        throw new TypeError(
+            'array_get_object(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+            'to return object, ' . get_debug_type($value) . ' returned'
+        );
+    }
+    throw new TypeError('array_get_object(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -98,7 +148,17 @@ function array_get_object(array $array, string|int $key): object
  */
 function array_get_resource(array $array, string|int $key)
 {
-    return var_get_resource($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        if (is_resource($value)) {
+            return $value;
+        }
+        throw new TypeError(
+            'array_get_resource(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+            'to return resource, ' . get_debug_type($value) . ' returned'
+        );
+    }
+    throw new TypeError('array_get_resource(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -111,7 +171,17 @@ function array_get_resource(array $array, string|int $key)
  */
 function array_get_array(array $array, string|int $key): array
 {
-    return var_get_array($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        if (is_array($value)) {
+            return $value;
+        }
+        throw new TypeError(
+            'array_get_array(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+            'to return array, ' . get_debug_type($value) . ' returned'
+        );
+    }
+    throw new TypeError('array_get_array(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -124,7 +194,17 @@ function array_get_array(array $array, string|int $key): array
  */
 function array_get_callable(array $array, string|int $key): callable
 {
-    return var_get_callable($array[$key] ?? null);
+    if (array_key_exists($key, $array)) {
+        $value = $array[$key];
+        if (is_callable($value)) {
+            return $value;
+        }
+        throw new TypeError(
+            'array_get_callable(): Argument #1 ($array) at the offset of argument #2 ($key) is expected' .
+            'to return callable, ' . get_debug_type($value) . ' returned'
+        );
+    }
+    throw new TypeError('array_get_callable(): Argument #1 ($array) does not contain the offset of argument #2 ($key)');
 }
 
 /**
@@ -139,7 +219,10 @@ function array_get_callable(array $array, string|int $key): callable
  */
 function array_get_optional_int(array $array, string|int $key): ?int
 {
-    return var_get_optional_int($array[$key] ?? null);
+    if (isset($array[$key])) {
+        return filter_var($array[$key], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+    }
+    return null;
 }
 
 /**
@@ -154,7 +237,13 @@ function array_get_optional_int(array $array, string|int $key): ?int
  */
 function array_get_optional_string(array $array, string|int $key): ?string
 {
-    return var_get_optional_string($array[$key] ?? null);
+    if (isset($array[$key])) {
+        $value = $array[$key];
+        if (is_string($value)) {
+            return $value;
+        }
+    }
+    return null;
 }
 
 /**
@@ -169,7 +258,10 @@ function array_get_optional_string(array $array, string|int $key): ?string
  */
 function array_get_optional_float(array $array, string|int $key): ?float
 {
-    return var_get_optional_float($array[$key] ?? null);
+    if (isset($array[$key])) {
+        return filter_var($array[$key], FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE);
+    }
+    return null;
 }
 
 
@@ -185,7 +277,10 @@ function array_get_optional_float(array $array, string|int $key): ?float
  */
 function array_get_optional_bool(array $array, string|int $key): ?bool
 {
-    return var_get_optional_bool($array[$key] ?? null);
+    if (isset($array[$key])) {
+        return filter_var($array[$key], FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE);
+    }
+    return null;
 }
 
 /**
@@ -200,7 +295,13 @@ function array_get_optional_bool(array $array, string|int $key): ?bool
  */
 function array_get_optional_object(array $array, string|int $key): ?object
 {
-    return var_get_optional_object($array[$key] ?? null);
+    if (isset($array[$key])) {
+        $value = $array[$key];
+        if (is_object($value)) {
+            return $value;
+        }
+    }
+    return null;
 }
 
 /**
@@ -215,7 +316,13 @@ function array_get_optional_object(array $array, string|int $key): ?object
  */
 function array_get_optional_resource(array $array, string|int $key)
 {
-    return var_get_optional_resource($array[$key] ?? null);
+    if (isset($array[$key])) {
+        $value = $array[$key];
+        if (is_resource($value)) {
+            return $value;
+        }
+    }
+    return null;
 }
 
 /**
@@ -230,7 +337,13 @@ function array_get_optional_resource(array $array, string|int $key)
  */
 function array_get_optional_array(array $array, string|int $key): ?array
 {
-    return var_get_optional_array($array[$key] ?? null);
+    if (isset($array[$key])) {
+        $value = $array[$key];
+        if (is_array($value)) {
+            return $value;
+        }
+    }
+    return null;
 }
 
 /**
@@ -245,5 +358,11 @@ function array_get_optional_array(array $array, string|int $key): ?array
  */
 function array_get_optional_callable(array $array, string|int $key): ?callable
 {
-    return var_get_optional_callable($array[$key] ?? null);
+    if (isset($array[$key])) {
+        $value = $array[$key];
+        if (is_callable($value)) {
+            return $value;
+        }
+    }
+    return null;
 }
