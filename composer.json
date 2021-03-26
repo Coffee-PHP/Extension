@@ -2,10 +2,10 @@
     "name": "coffeephp/extension",
     "description": "Auto-loads extensions that add functionality to PHP.",
     "license": "Apache-2.0",
-    "version": "1.2.0",
+    "version": "1.2.2",
     "type": "library",
     "readme": "README.md",
-    "time": "2021-02-26",
+    "time": "2021-03-26",
     "authors": [
         {
             "name": "Danny Damsky",
