@@ -41,8 +41,6 @@ function str_putcsv(array $fields, string $delimiter = ',', string $enclosure = 
         fputcsv($handle, $fields, $delimiter, $enclosure);
         rewind($handle);
         return stream_get_contents($handle);
-    } catch (Throwable) {
-        return false;
     } finally {
         if (isset($handle) && $handle !== false) {
             fclose($handle);
